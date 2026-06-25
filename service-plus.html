@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>service + | دليل الخدمات المحلي فائق الدقة</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Cairo', 'sans-serif'] },
+          colors: {
+            brand: {
+              50: '#eef7f6', 100: '#d5ecea', 200: '#aedad6',
+              300: '#7cc1bd', 400: '#4ba39f', 500: '#2f8782',
+              600: '#236b68', 700: '#1f5654', 800: '#1d4644', 900: '#1b3b39',
+            },
+            sky: { 500: '#3b82c4', 600: '#2f6aa8' }
+          },
+          keyframes: {
+            fadeUp: { '0%': { opacity: 0, transform: 'translateY(20px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
+            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-12px)' } },
+            pulseRing: { '0%': { transform: 'scale(0.8)', opacity: 0.6 }, '100%': { transform: 'scale(2.2)', opacity: 0 } },
+          },
+          animation: {
+            fadeUp: 'fadeUp 0.7s ease forwards',
+            float: 'float 5s ease-in-out infinite',
+            pulseRing: 'pulseRing 2s ease-out infinite',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Cairo', sans-serif; }
+    /* Map background simulation */
+    .map-bg {
+      background-color: #e8eef0;
+      background-image:
+        linear-gradient(0deg, rgba(47,135,130,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(47,135,130,0.06) 1px, transparent 1px),
+        radial-gradient(circle at 30% 40%, rgba(75,163,159,0.15) 0, transparent 22%),
+        radial-gradient(circle at 75% 70%, rgba(59,130,196,0.12) 0, transparent 25%);
+      background-size: 26px 26px, 26px 26px, 100% 100%, 100% 100%;
+    }
+    .road { position:absolute; background:#fff; border-radius:99px; box-shadow:0 0 0 1px rgba(0,0,0,0.03); }
+    /* Screen transition */
+    .screen { transition: transform .45s cubic-bezier(.4,0,.2,1), opacity .35s ease; }
+    .screen-hidden-right { transform: translateX(100%); opacity:0; pointer-events:none; position:absolute; inset:0; }
+    .screen-hidden-left { transform: translateX(-30%); opacity:0; pointer-events:none; position:absolute; inset:0; }
+    .screen-active { transform: translateX(0); opacity:1; position:relative; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .grad-hero { background: radial-gradient(1200px 600px at 85% -10%, rgba(75,163,159,0.18), transparent 60%), radial-gradient(900px 500px at 0% 20%, rgba(59,130,196,0.12), transparent 55%); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased overflow-x-hidden">
+
+  <!-- ===================== LANDING ===================== -->
+  <header class="relative grad-hero">
+    <!-- Nav -->
+    <nav class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-2xl bg-brand-600 flex items-center justify-center text-white shadow-lg shadow-brand-600/30">
+          <i data-lucide="map-pin" class="w-5 h-5"></i>
+        </div>
+        <span class="text-xl font-extrabold text-brand-700">service <span class="text-sky-500">+</span></span>
+      </div>
+      <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+        <a href="#problem" class="hover:text-brand-600 transition">المشكلة والحل</a>
+        <a href="#features" class="hover:text-brand-600 transition">المميزات</a>
+        <a href="#demo" class="hover:text-brand-600 transition">التجربة الحية</a>
+      </div>
+      <a href="#demo" class="px-5 py-2.5 rounded-xl bg-brand-600 text-white text-sm font-bold hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">جرّب التطبيق</a>
+    </nav>
+
+    <!-- Hero -->
+    <div class="max-w-7xl mx-auto px-6 pt-10 pb-20 grid lg:grid-cols-2 gap-12 items-center">
+      <div class="animate-fadeUp">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-100 text-brand-700 text-xs font-bold mb-5">
+          <i data-lucide="sparkles" class="w-4 h-4"></i> فكرة مبتكرة لدعم المشاريع
+        </span>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight text-slate-900">
+          كل خدمات مدينتك <br /><span class="text-brand-600">بدقة فائقة</span> بين يديك
+        </h1>
+        <p class="mt-6 text-lg text-slate-600 leading-relaxed max-w-xl">
+          دليل خدمات محلي فائق الدقة (Hyperlocal Directory) يسهّل الوصول إلى الأطباء، الصيانة المنزلية، والخدمات الخاصة في مدينتك — بتفاصيل وأوقات دوام ومواقع أدق من خرائط جوجل.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="#demo" class="px-6 py-3.5 rounded-xl bg-brand-600 text-white font-bold hover:bg-brand-700 transition shadow-lg shadow-brand-600/30 flex items-center gap-2">
+            <i data-lucide="smartphone" class="w-5 h-5"></i> شاهد النموذج التفاعلي
+          </a>
+          <a href="#problem" class="px-6 py-3.5 rounded-xl bg-white text-slate-700 font-bold border border-slate-200 hover:border-brand-300 transition flex items-center gap-2">
+            اعرف المزيد <i data-lucide="arrow-left" class="w-5 h-5"></i>
+          </a>
+        </div>
+        <div class="mt-10 flex items-center gap-8">
+          <div><div class="text-2xl font-black text-brand-700">+850</div><div class="text-sm text-slate-500">مزود خدمة</div></div>
+          <div class="w-px h-10 bg-slate-200"></div>
+          <div><div class="text-2xl font-black text-brand-700">12</div><div class="text-sm text-slate-500">فئة رئيسية</div></div>
+          <div class="w-px h-10 bg-slate-200"></div>
+          <div><div class="text-2xl font-black text-brand-700">دقة 99%</div><div class="text-sm text-slate-500">في الموقع</div></div>
+        </div>
+      </div>
+
+      <!-- Phone anchor in hero -->
+      <div class="flex justify-center lg:justify-end">
+        <div class="animate-float">
+          <div class="w-44 h-44 md:w-72 md:h-72 rounded-[3rem] bg-gradient-to-br from-brand-500 to-sky-500 opacity-10 blur-2xl absolute"></div>
+          <div class="relative text-center">
+            <div class="w-24 h-24 mx-auto rounded-3xl bg-white shadow-2xl flex items-center justify-center mb-4 border border-slate-100">
+              <i data-lucide="map-pinned" class="w-12 h-12 text-brand-600"></i>
+            </div>
+            <p class="text-slate-500 font-semibold">انتقل لأسفل لتجربة<br/>التطبيق الحي ↓</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== PROBLEM / SOLUTION ===================== -->
+  <section id="problem" class="max-w-7xl mx-auto px-6 py-20">
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="p-8 rounded-3xl bg-rose-50 border border-rose-100">
+        <div class="w-12 h-12 rounded-2xl bg-rose-100 flex items-center justify-center mb-5">
+          <i data-lucide="circle-alert" class="w-6 h-6 text-rose-500"></i>
+        </div>
+        <h3 class="text-xl font-extrabold text-slate-900 mb-3">المشكلة</h3>
+        <p class="text-slate-600 leading-relaxed">
+          البحث عن خدمة محلية موثوقة (سبّاك، طبيب مناوب، عيادة بيطرية) يستهلك وقتاً طويلاً. الخرائط العامة لا توفر أوقات الدوام الدقيقة، ولا التقييمات المحلية، ولا حالة "مفتوح الآن" الفعلية.
+        </p>
+      </div>
+      <div class="p-8 rounded-3xl bg-brand-50 border border-brand-100">
+        <div class="w-12 h-12 rounded-2xl bg-brand-100 flex items-center justify-center mb-5">
+          <i data-lucide="circle-check-big" class="w-6 h-6 text-brand-600"></i>
+        </div>
+        <h3 class="text-xl font-extrabold text-slate-900 mb-3">الحل: service +</h3>
+        <p class="text-slate-600 leading-relaxed">
+          منصة محلية فائقة الدقة تجمع كل مزودي الخدمات في مدينتك ضمن فئات منظمة، مع تقييمات حقيقية، أوقات دوام محدّثة، اتصال مباشر، وموقع دقيق على الخريطة — كل ذلك في تطبيق واحد بسيط.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURES ===================== -->
+  <section id="features" class="bg-white border-y border-slate-100">
+    <div class="max-w-7xl mx-auto px-6 py-20">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-black text-slate-900">لماذا <span class="text-brand-600">service +</span>؟</h2>
+        <p class="mt-4 text-slate-500 max-w-2xl mx-auto">مصمم خصيصاً للمجتمع المحلي بمعايير دقة عالية.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded-2xl bg-slate-50 hover:bg-brand-50 transition border border-slate-100">
+          <i data-lucide="clock" class="w-7 h-7 text-brand-600 mb-4"></i>
+          <h4 class="font-extrabold text-slate-900 mb-2">مفتوح الآن</h4>
+          <p class="text-sm text-slate-500 leading-relaxed">حالة الدوام الفعلية في الوقت الحقيقي لكل مزود خدمة.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-slate-50 hover:bg-brand-50 transition border border-slate-100">
+          <i data-lucide="star" class="w-7 h-7 text-brand-600 mb-4"></i>
+          <h4 class="font-extrabold text-slate-900 mb-2">تقييمات محلية</h4>
+          <p class="text-sm text-slate-500 leading-relaxed">آراء حقيقية من سكان مدينتك لا من غرباء.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-slate-50 hover:bg-brand-50 transition border border-slate-100">
+          <i data-lucide="navigation" class="w-7 h-7 text-brand-600 mb-4"></i>
+          <h4 class="font-extrabold text-slate-900 mb-2">موقع دقيق</h4>
+          <p class="text-sm text-slate-500 leading-relaxed">عناوين تفصيلية تتجاوز دقة الخرائط العامة.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-slate-50 hover:bg-brand-50 transition border border-slate-100">
+          <i data-lucide="phone-call" class="w-7 h-7 text-brand-600 mb-4"></i>
+          <h4 class="font-extrabold text-slate-900 mb-2">اتصال مباشر</h4>
+          <p class="text-sm text-slate-500 leading-relaxed">تواصل فوري مع مقدم الخدمة بنقرة واحدة.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== INTERACTIVE DEMO ===================== -->
+  <section id="demo" class="max-w-7xl mx-auto px-6 py-24">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div>
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-100 text-sky-600 text-xs font-bold mb-5">
+          <i data-lucide="mouse-pointer-click" class="w-4 h-4"></i> نموذج حي قابل للتفاعل
+        </span>
+        <h2 class="text-3xl md:text-4xl font-black text-slate-900 leading-snug">جرّب التطبيق الآن<br/>من داخل المتصفح</h2>
+        <p class="mt-5 text-slate-600 leading-relaxed">
+          هذا نموذج تفاعلي حقيقي للتطبيق. اضغط على الشاشة الترحيبية للبدء، ثم تنقّل بين الفئات وتفاصيل مقدمي الخدمة وزر العودة تماماً كما في التطبيق النهائي.
+        </p>
+        <ul class="mt-8 space-y-4">
+          <li class="flex items-center gap-3 text-slate-700"><span class="w-7 h-7 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm">1</span> اضغط للدخول من الشاشة الترحيبية</li>
+          <li class="flex items-center gap-3 text-slate-700"><span class="w-7 h-7 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm">2</span> اختر فئة مثل "الصيانة المنزلية"</li>
+          <li class="flex items-center gap-3 text-slate-700"><span class="w-7 h-7 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm">3</span> افتح تفاصيل مزود خدمة وجرّب الاتصال</li>
+        </ul>
+      </div>
+
+      <!-- PHONE MOCKUP -->
+      <div class="flex justify-center">
+        <div class="relative">
+          <!-- pulse ring decoration -->
+          <div class="absolute inset-0 m-auto w-40 h-40 rounded-full bg-brand-400/20 animate-pulseRing"></div>
+
+          <div class="relative w-[320px] h-[660px] bg-slate-900 rounded-[3rem] p-3 shadow-2xl shadow-slate-400/40 ring-1 ring-slate-200">
+            <!-- notch -->
+            <div class="absolute top-3 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-900 rounded-b-2xl z-50"></div>
+            <!-- screen -->
+            <div id="phone" class="relative w-full h-full bg-white rounded-[2.4rem] overflow-hidden">
+
+              <!-- ===== SPLASH ===== -->
+              <div id="screen-splash" class="screen screen-active absolute inset-0 bg-gradient-to-br from-brand-600 to-brand-800 flex flex-col items-center justify-center cursor-pointer z-40">
+                <div class="w-20 h-20 rounded-3xl bg-white/15 backdrop-blur flex items-center justify-center mb-5 animate-float">
+                  <i data-lucide="map-pin" class="w-10 h-10 text-white"></i>
+                </div>
+                <h1 class="text-3xl font-black text-white">service <span class="text-brand-200">+</span></h1>
+                <p class="text-brand-100 text-sm mt-2">دليل خدمات مدينتك</p>
+                <div class="mt-8 flex items-center gap-2 text-brand-100 text-xs animate-pulse">
+                  <i data-lucide="hand-pointer" class="w-4 h-4"></i> اضغط للبدء
+                </div>
+              </div>
+
+              <!-- ===== HOME ===== -->
+              <div id="screen-home" class="screen screen-hidden-right">
+                <div class="relative h-full flex flex-col">
+                  <!-- map background -->
+                  <div class="map-bg absolute inset-0">
+                    <div class="road" style="top:30%; left:-5%; width:110%; height:8px; transform:rotate(-8deg);"></div>
+                    <div class="road" style="top:60%; left:-5%; width:110%; height:6px; transform:rotate(5deg);"></div>
+                    <div class="road" style="top:-5%; right:25%; width:8px; height:80%;"></div>
+                    <span class="absolute top-[34%] left-[20%] w-3 h-3 rounded-full bg-rose-500 ring-4 ring-rose-200"></span>
+                    <span class="absolute top-[55%] right-[30%] w-3 h-3 rounded-full bg-brand-500 ring-4 ring-brand-200"></span>
+                    <span class="absolute top-[45%] left-[55%] w-3 h-3 rounded-full bg-sky-500 ring-4 ring-sky-200"></span>
+                  </div>
+
+                  <!-- header overlay -->
+                  <div class="relative p-5 pt-10">
+                    <div class="flex items-center justify-between mb-4">
+                      <div>
+                        <p class="text-xs text-slate-500">موقعك الحالي</p>
+                        <p class="font-extrabold text-slate-900 flex items-center gap-1"><i data-lucide="map-pin" class="w-4 h-4 text-brand-600"></i> حي النزهة</p>
+                      </div>
+                      <div class="w-10 h-10 rounded-full bg-brand-600 flex items-center justify-center text-white font-bold">س</div>
+                    </div>
+                    <!-- search -->
+                    <div class="flex items-center gap-2 bg-white rounded-2xl px-4 py-3 shadow-lg shadow-slate-200/60">
+                      <i data-lucide="search" class="w-5 h-5 text-slate-400"></i>
+                      <input type="text" placeholder="ابحث عن خدمة أو مكان..." class="flex-1 bg-transparent text-sm outline-none text-slate-700 placeholder:text-slate-400" />
+                      <i data-lucide="sliders-horizontal" class="w-5 h-5 text-brand-600"></i>
+                    </div>
+                  </div>
+
+                  <!-- categories sheet -->
+                  <div class="relative mt-auto bg-white rounded-t-3xl shadow-2xl p-5 pb-24">
+                    <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-4"></div>
+                    <h3 class="font-extrabold text-slate-900 mb-4">الفئات الرئيسية</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                      <button onclick="openCategory('medical')" class="cat-btn text-right p-4 rounded-2xl bg-rose-50 hover:bg-rose-100 transition relative">
+                        <span class="absolute top-3 left-3 text-[10px] font-bold bg-green-500 text-white px-2 py-0.5 rounded-full">مفتوح الآن</span>
+                        <i data-lucide="stethoscope" class="w-7 h-7 text-rose-500 mb-2"></i>
+                        <p class="font-bold text-sm text-slate-800">الأطباء والصيادلة</p>
+                      </button>
+                      <button onclick="openCategory('maintenance')" class="cat-btn text-right p-4 rounded-2xl bg-amber-50 hover:bg-amber-100 transition">
+                        <i data-lucide="wrench" class="w-7 h-7 text-amber-500 mb-2"></i>
+                        <p class="font-bold text-sm text-slate-800">الصيانة المنزلية</p>
+                        <p class="text-[11px] text-slate-500">صحي · نجارة · كهرباء</p>
+                      </button>
+                      <button onclick="openCategory('special')" class="cat-btn text-right p-4 rounded-2xl bg-sky-50 hover:bg-sky-100 transition">
+                        <i data-lucide="printer" class="w-7 h-7 text-sky-500 mb-2"></i>
+                        <p class="font-bold text-sm text-slate-800">الخدمات الخاصة</p>
+                        <p class="text-[11px] text-slate-500">مطابع · بيطرية</p>
+                      </button>
+                      <button onclick="openCategory('realestate')" class="cat-btn text-right p-4 rounded-2xl bg-brand-50 hover:bg-brand-100 transition">
+                        <i data-lucide="building-2" class="w-7 h-7 text-brand-600 mb-2"></i>
+                        <p class="font-bold text-sm text-slate-800">العقارات والتجارة</p>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===== LIST ===== -->
+              <div id="screen-list" class="screen screen-hidden-right bg-slate-50">
+                <div class="h-full flex flex-col">
+                  <div class="bg-white pt-10 px-5 pb-4 shadow-sm flex items-center gap-3">
+                    <button onclick="goTo('home', 'back')" class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition">
+                      <i data-lucide="arrow-right" class="w-5 h-5 text-slate-700"></i>
+                    </button>
+                    <h3 id="list-title" class="font-extrabold text-slate-900">الصيانة المنزلية</h3>
+                  </div>
+                  <div id="list-items" class="flex-1 overflow-y-auto no-scrollbar p-4 pb-24 space-y-3"></div>
+                </div>
+              </div>
+
+              <!-- ===== DETAILS ===== -->
+              <div id="screen-details" class="screen screen-hidden-right bg-white">
+                <div class="h-full flex flex-col">
+                  <!-- header map strip -->
+                  <div class="relative map-bg h-44 flex items-end p-4 pt-10">
+                    <button onclick="goTo('list', 'back')" class="absolute top-10 right-4 w-9 h-9 rounded-full bg-white shadow flex items-center justify-center hover:bg-slate-50 transition">
+                      <i data-lucide="arrow-right" class="w-5 h-5 text-slate-700"></i>
+                    </button>
+                    <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                      <span class="relative flex items-center justify-center">
+                        <span class="absolute w-10 h-10 rounded-full bg-brand-400/30 animate-pulseRing"></span>
+                        <i data-lucide="map-pin" class="w-9 h-9 text-brand-600 drop-shadow"></i>
+                      </span>
+                    </span>
+                  </div>
+
+                  <div class="flex-1 overflow-y-auto no-scrollbar p-5 pb-28 -mt-6 relative">
+                    <div class="bg-white rounded-3xl shadow-lg shadow-slate-200/60 p-5">
+                      <div class="flex items-start justify-between">
+                        <div>
+                          <h2 id="d-name" class="text-xl font-black text-slate-900">أحمد النجار</h2>
+                          <p id="d-job" class="text-sm text-brand-600 font-semibold">أعمال النجارة والأثاث</p>
+                        </div>
+                        <span id="d-status" class="text-[11px] font-bold bg-green-100 text-green-600 px-3 py-1 rounded-full">مفتوح الآن</span>
+                      </div>
+                      <div class="flex items-center gap-1 mt-3" id="d-stars"></div>
+                    </div>
+
+                    <div class="mt-4 space-y-3">
+                      <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-50">
+                        <i data-lucide="clock" class="w-5 h-5 text-brand-600"></i>
+                        <div><p class="text-xs text-slate-500">أوقات الدوام</p><p id="d-hours" class="text-sm font-semibold text-slate-800">يومياً ٩ ص - ٩ م</p></div>
+                      </div>
+                      <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-50">
+                        <i data-lucide="map-pin" class="w-5 h-5 text-brand-600"></i>
+                        <div><p class="text-xs text-slate-500">الموقع الدقيق</p><p id="d-loc" class="text-sm font-semibold text-slate-800">حي النزهة، شارع الورود، بناية ١٢</p></div>
+                      </div>
+                      <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-50">
+                        <i data-lucide="phone" class="w-5 h-5 text-brand-600"></i>
+                        <div><p class="text-xs text-slate-500">رقم الهاتف</p><p id="d-phone" class="text-sm font-semibold text-slate-800">٠٥٠ ١٢٣ ٤٥٦٧</p></div>
+                      </div>
+                    </div>
+
+                    <div class="mt-5 grid grid-cols-2 gap-3">
+                      <button onclick="simulateCall()" class="py-3.5 rounded-2xl bg-brand-600 text-white font-bold flex items-center justify-center gap-2 hover:bg-brand-700 transition">
+                        <i data-lucide="phone-call" class="w-5 h-5"></i> اتصال
+                      </button>
+                      <button class="py-3.5 rounded-2xl bg-slate-100 text-slate-700 font-bold flex items-center justify-center gap-2 hover:bg-slate-200 transition">
+                        <i data-lucide="navigation" class="w-5 h-5"></i> الاتجاهات
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===== BOTTOM NAV ===== -->
+              <div id="bottom-nav" class="hidden absolute bottom-0 inset-x-0 bg-white/95 backdrop-blur border-t border-slate-100 px-6 py-3 z-30">
+                <div class="flex items-center justify-between">
+                  <button onclick="goTo('home','back')" class="nav-item flex flex-col items-center gap-1 text-brand-600" data-nav="home">
+                    <i data-lucide="home" class="w-5 h-5"></i><span class="text-[10px] font-bold">الرئيسية</span>
+                  </button>
+                  <button onclick="toast('الخريطة')" class="nav-item flex flex-col items-center gap-1 text-slate-400">
+                    <i data-lucide="map" class="w-5 h-5"></i><span class="text-[10px] font-bold">الخريطة</span>
+                  </button>
+                  <button onclick="toast('المفضلة')" class="nav-item flex flex-col items-center gap-1 text-slate-400">
+                    <i data-lucide="heart" class="w-5 h-5"></i><span class="text-[10px] font-bold">المفضلة</span>
+                  </button>
+                  <button onclick="toast('الإعدادات')" class="nav-item flex flex-col items-center gap-1 text-slate-400">
+                    <i data-lucide="settings" class="w-5 h-5"></i><span class="text-[10px] font-bold">الإعدادات</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- toast -->
+              <div id="toast" class="absolute bottom-24 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl opacity-0 transition-opacity z-50 pointer-events-none"></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-brand-800 text-brand-100">
+    <div class="max-w-7xl mx-auto px-6 py-12 text-center">
+      <div class="flex items-center justify-center gap-2 mb-4">
+        <div class="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center"><i data-lucide="map-pin" class="w-5 h-5 text-white"></i></div>
+        <span class="text-lg font-extrabold text-white">service <span class="text-brand-300">+</span></span>
+      </div>
+      <p class="text-sm max-w-md mx-auto">نموذج أولي مقدّم لاستعراض فكرة "دليل الخدمات المحلي فائق الدقة" أمام المؤسسات الداعمة للمشاريع.</p>
+      <p class="text-xs text-brand-300 mt-6">© 2026 service + — جميع الحقوق محفوظة</p>
+    </div>
+  </footer>
+
+  <script>
+    // ---------- DATA ----------
+    const DATA = {
+      medical: { title: 'الأطباء والصيادلة', items: [
+        { name: 'د. سارة العتيبي', job: 'طب أسرة', rating: 5, status:'مفتوح الآن', open:true, hours:'يومياً ٤ م - ١٠ م', loc:'حي النزهة، مجمع الشفاء الطبي', phone:'٠٥٥ ٧٨٩ ١٢٣٤' },
+        { name: 'صيدلية الرحمة', job: 'صيدلية مناوبة ٢٤ ساعة', rating: 4, status:'مفتوح الآن', open:true, hours:'٢٤ ساعة', loc:'شارع الملك فهد، مقابل الحديقة', phone:'٠٥٠ ٤٤٥ ٦٦٧٧' },
+        { name: 'د. خالد المنصور', job: 'طب أسنان', rating: 4, status:'مغلق', open:false, hours:'٩ ص - ٥ م', loc:'برج النخيل، الدور الثالث', phone:'٠٥٦ ٢٢١ ٣٣٤٤' },
+      ]},
+      maintenance: { title: 'الصيانة المنزلية', items: [
+        { name: 'أحمد النجار', job: 'أعمال النجارة والأثاث', rating: 5, status:'مفتوح الآن', open:true, hours:'يومياً ٩ ص - ٩ م', loc:'حي النزهة، شارع الورود، بناية ١٢', phone:'٠٥٠ ١٢٣ ٤٥٦٧' },
+        { name: 'أبو علي للسباكة', job: 'أعمال صحية وسباكة', rating: 4, status:'مفتوح الآن', open:true, hours:'السبت - الخميس ٨ ص - ٨ م', loc:'حي الروضة، طريق الأمير', phone:'٠٥٣ ٩٨٧ ٦٥٤٣' },
+        { name: 'مؤسسة النور للكهرباء', job: 'تمديدات وصيانة كهربائية', rating: 5, status:'مغلق', open:false, hours:'٩ ص - ٦ م', loc:'حي السلام، شارع التجارة', phone:'٠٥٨ ٧٧٧ ٨٨٩٩' },
+      ]},
+      special: { title: 'الخدمات الخاصة', items: [
+        { name: 'مطابع الإبداع', job: 'طباعة وتصميم', rating: 4, status:'مفتوح الآن', open:true, hours:'٩ ص - ١١ م', loc:'حي العليا، شارع الطباعة', phone:'٠٥١ ٣٣٣ ٢٢١١' },
+        { name: 'العيادة البيطرية المتقدمة', job: 'رعاية الحيوانات الأليفة', rating: 5, status:'مفتوح الآن', open:true, hours:'يومياً ١٠ ص - ١٠ م', loc:'حي الياسمين، مجمع الحيوانات', phone:'٠٥٤ ٥٥٥ ٦٦٦٦' },
+      ]},
+      realestate: { title: 'العقارات والتجارة', items: [
+        { name: 'مكتب الديار العقاري', job: 'بيع وتأجير العقارات', rating: 4, status:'مفتوح الآن', open:true, hours:'٩ ص - ٩ م', loc:'حي الملقا، طريق الملك سلمان', phone:'٠٥٠ ١١١ ٢٢٢٢' },
+        { name: 'معرض التجارة الحديثة', job: 'مستلزمات تجارية', rating: 4, status:'مغلق', open:false, hours:'٤ م - ١٢ م', loc:'حي الصناعية، مجمع التجار', phone:'٠٥٧ ٤٤٤ ٥٥٥٥' },
+      ]},
+    };
+
+    // ---------- NAV LOGIC ----------
+    const screens = ['splash','home','list','details'];
+    let current = 'splash';
+
+    function show(name) {
+      screens.forEach(s => {
+        const el = document.getElementById('screen-' + s);
+        if (s === name) { el.className = 'screen screen-active' + (s==='list'?' bg-slate-50':'') + (s==='details'?' bg-white':''); }
+        else { el.className = 'screen screen-hidden-right' + (s==='list'?' bg-slate-50':'') + (s==='details'?' bg-white':''); }
+      });
+      // absolute positioning for inactive
+      screens.forEach(s => {
+        const el = document.getElementById('screen-' + s);
+        if (s !== name) { el.classList.add('absolute','inset-0'); } else { el.classList.remove('absolute','inset-0'); el.classList.add('relative'); }
+      });
+      // bottom nav visibility (hide on splash)
+      document.getElementById('bottom-nav').classList.toggle('hidden', name === 'splash');
+      current = name;
+    }
+
+    function goTo(name) { show(name); }
+
+    function startApp() { show('home'); }
+
+    function openCategory(key) {
+      const data = DATA[key];
+      document.getElementById('list-title').innerText = data.title;
+      const container = document.getElementById('list-items');
+      container.innerHTML = '';
+      data.items.forEach(item => {
+        const stars = renderStars(item.rating);
+        const statusBadge = item.open
+          ? '<span class="text-[10px] font-bold bg-green-100 text-green-600 px-2 py-0.5 rounded-full">مفتوح الآن</span>'
+          : '<span class="text-[10px] font-bold bg-slate-100 text-slate-400 px-2 py-0.5 rounded-full">مغلق</span>';
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-2xl p-4 shadow-sm border border-slate-100';
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-2">
+            <button onclick='openDetails(${JSON.stringify(item).replace(/'/g, "&#39;")})' class="text-right flex-1">
+              <p class="font-extrabold text-slate-900">${item.name}</p>
+              <p class="text-xs text-brand-600">${item.job}</p>
+              <div class="flex items-center gap-0.5 mt-1.5">${stars}</div>
+            </button>
+            ${statusBadge}
+          </div>
+          <div class="flex items-center gap-2 mt-3 pt-3 border-t border-slate-50">
+            <a onclick="event.stopPropagation(); simulateCall()" class="flex-1 cursor-pointer flex items-center justify-center gap-1 text-xs font-bold text-brand-600 bg-brand-50 rounded-xl py-2 hover:bg-brand-100 transition">
+              <i data-lucide="phone" class="w-4 h-4"></i> ${item.phone}
+            </a>
+            <button onclick="event.stopPropagation(); toast('عرض على الخريطة')" class="flex items-center justify-center gap-1 text-xs font-bold text-slate-600 bg-slate-100 rounded-xl py-2 px-3 hover:bg-slate-200 transition">
+              <i data-lucide="map-pin" class="w-4 h-4"></i> الخريطة
+            </button>
+          </div>`;
+        container.appendChild(card);
+      });
+      show('list');
+      lucide.createIcons();
+    }
+
+    function openDetails(item) {
+      document.getElementById('d-name').innerText = item.name;
+      document.getElementById('d-job').innerText = item.job;
+      document.getElementById('d-hours').innerText = item.hours;
+      document.getElementById('d-loc').innerText = item.loc;
+      document.getElementById('d-phone').innerText = item.phone;
+      const statusEl = document.getElementById('d-status');
+      statusEl.innerText = item.status;
+      statusEl.className = item.open
+        ? 'text-[11px] font-bold bg-green-100 text-green-600 px-3 py-1 rounded-full'
+        : 'text-[11px] font-bold bg-slate-100 text-slate-400 px-3 py-1 rounded-full';
+      document.getElementById('d-stars').innerHTML = renderStars(item.rating);
+      show('details');
+      lucide.createIcons();
+    }
+
+    function renderStars(n) {
+      let s = '';
+      for (let i = 0; i < 5; i++) {
+        s += `<i data-lucide="star" class="w-4 h-4 ${i < n ? 'text-amber-400 fill-amber-400' : 'text-slate-200'}"></i>`;
+      }
+      return s + `<span class="text-xs text-slate-400 mr-1">${n}.0</span>`;
+    }
+
+    function simulateCall() { toast('جارٍ الاتصال... 📞'); }
+
+    let toastTimer;
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.style.opacity = '1';
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.style.opacity = '0', 1600);
+    }
+
+    // splash interactions
+    document.getElementById('screen-splash').addEventListener('click', startApp);
+    setTimeout(() => { if (current === 'splash') startApp(); }, 2500);
+
+    // init icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>
